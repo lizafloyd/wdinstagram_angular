@@ -10,6 +10,7 @@
   ])
   .config(["$stateProvider", Router])
   .controller("indexController", [indexController])
+  .controller("showController", [showController])
 
 
 
@@ -19,6 +20,12 @@ function Router($stateProvider) {
     url: '/',
     templateUrl: 'js/ng-views/index.html',
     controller: 'indexController',
+    controllerAs: 'vm'
+  })
+  .state("show", {
+    url: '/dummies/:id',
+    templateUrl: 'js/ng-views/show.html',
+    controller: 'showController',
     controllerAs: 'vm'
   })
 
@@ -32,6 +39,13 @@ function indexController() {
     ];
 }
 
+function showController(){
+  console.log("show working");
+  this.dummies = [
+      {body: "hey"},
+      {body: "there"}
+    ];
+}
 
 
 })();

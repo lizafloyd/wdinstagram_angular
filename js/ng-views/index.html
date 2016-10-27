@@ -1,1 +1,4 @@
 <h3>testing views</h3>
+<div data-ng-repeat="dummy in vm.dummies | orderBy:'-created_at'">
+  <p><a data-ui-sref="show({id: dummy.id})">{{dummy.body}}</a></p>
+</div>
