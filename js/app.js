@@ -9,8 +9,16 @@
     "ui.router"
   ])
   .config(["$stateProvider", Router])
-  .controller("indexController", [indexController])
-  .controller("showController", [showController])
+  .controller("indexController", [
+    "InstaFactory",
+    indexController])
+  .controller("showController", [
+    "InstaFactory",
+    "$stateParams",
+    showController])
+  .factory("InstaFactory", [
+    "$resource",
+    InstaFactoryFunction])
 
 
 
@@ -23,7 +31,7 @@ function Router($stateProvider) {
     controllerAs: 'vm'
   })
   .state("show", {
-    url: '/dummies/:id',
+    url: '/entries/:id',
     templateUrl: 'js/ng-views/show.html',
     controller: 'showController',
     controllerAs: 'vm'
@@ -31,20 +39,16 @@ function Router($stateProvider) {
 
 }
 
-function indexController() {
-  console.log("index working");
-  this.dummies = [
-      {body: "hey"},
-      {body: "there"}
-    ];
+function InstaFactoryFunction($resource){
+  return $resource("http://localhost:3000/entries/:id")
 }
 
-function showController(){
-  console.log("show working");
-  this.dummies = [
-      {body: "hey"},
-      {body: "there"}
-    ];
+function indexController(InstaFactory) {
+  this.entries = InstaFactory.query()
+}
+
+function showController(InstaFactory, $stateParams){
+  this.entry = InstaFactory.get({id: $stateParams.id})
 }
 
 
